@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"html/template"
 	"io/ioutil"
@@ -17,8 +18,12 @@ type Page struct {
 
 func main() {
 
+	// Creating a flag for user-defined file name
+	fileName := flag.String("file", "", "The file to parse")
+	flag.Parse()
+
 	// Reading entire file content
-	content, err := ioutil.ReadFile("first-post.txt")
+	content, err := ioutil.ReadFile(*fileName + ".txt")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -26,7 +31,7 @@ func main() {
 	page := Page{
 		// TextFilePath: "/",
 		// TextFileName: "first-post.txt",
-		HTMLPagePath: "first-post.html",
+		HTMLPagePath: *fileName + ".html",
 		Content:      string(content),
 	}
 
