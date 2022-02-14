@@ -9,6 +9,8 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+
+	ct "github.com/daviddengcn/go-colortext"
 )
 
 // Page holds all the information we need to generate a new
@@ -41,6 +43,7 @@ func main() {
 	} else if *inputDir != "" {
 		files, err := ioutil.ReadDir(*inputDir)
 		if err != nil {
+			ct.Foreground(ct.Red, false)
 			log.Fatal(err)
 		}
 
@@ -50,14 +53,20 @@ func main() {
 			}
 		}
 	} else {
+		ct.Foreground(ct.Red, false)
 		log.Fatal("Please specify a file or directory!")
 	}
+
+	ct.Foreground(ct.Green, false)
+	fmt.Println("Site Generation Complete!")
+	ct.ResetColor()
 }
 
 func create_html(fileName string) {
 	// Reading entire file content
 	content, err := ioutil.ReadFile(fileName + ".txt")
 	if err != nil {
+		ct.Foreground(ct.Red, false)
 		log.Fatal(err)
 	}
 
@@ -86,5 +95,6 @@ func create_html(fileName string) {
 	t.Execute(newFile, page)
 
 	// Printing page content
+	ct.Foreground(ct.Blue, false)
 	fmt.Println(page.Content)
 }
